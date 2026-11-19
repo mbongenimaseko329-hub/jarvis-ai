@@ -360,6 +360,7 @@ function speak(reply) {
   const utterance = new SpeechSynthesisUtterance(reply);
 
 const voices = window.speechSynthesis.getVoices();
+console.log('Available voices:', voices.length);
 
 const britishMaleVoice = voices.find(voice =>
   voice.lang === 'en-GB' &&
