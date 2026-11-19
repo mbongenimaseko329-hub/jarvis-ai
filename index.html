@@ -453,11 +453,15 @@ if (SpeechRecognition) {
   };
 
   recognition.onresult = event => {
-    const spokenText = event.results[0][0].transcript;
-    if (spokenText.trim()) {
+  const spokenText = event.results[0][0].transcript.trim();
+
+  if (spokenText) {
+    recognition.stop();
+    setTimeout(() => {
       sendMessage(spokenText);
-    }
-  };
+    }, 500);
+  }
+};
 
   recognition.onerror = event => {
     document.body.classList.remove('listening');
