@@ -459,14 +459,26 @@ if (SpeechRecognition) {
     status('LISTENING', 'I am listening...');
   };
 
-  recognition.onresult = event => {
-  const spokenText = event.results[0][0].transcript.trim();
+  let pendingVoiceMessage = '';
 
-  if (spokenText) {
-    recognition.stop();
-    setTimeout(() => {
-      sendMessage(spokenText);
-    }, 500);
+recognition.onresult = event => {
+  pendingVoiceMessage = event.results[0][0].transcript.trim();
+  recognition.stop();
+};
+
+recognition.onend = () => {
+  document.body.classList.remove('listening');
+
+  if (pendingVoiceMessage) {
+    const message = pendingVoiceMessage;
+    pendingVoiceMessage = '';
+
+    setTimeout(() => sendMessage(message), 300);
+    return;
+  }
+
+  if (voiceMode && !busy) {
+    restartTimer = setTimeout(startListening, 700);
   }
 };
 
