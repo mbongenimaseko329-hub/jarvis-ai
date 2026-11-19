@@ -447,6 +447,7 @@ $('#chat').addEventListener('submit', event => {
   sendMessage($('#entry').value);
 });
 
+
 // Voice recognition
 if (SpeechRecognition) {
   recognition = new SpeechRecognition();
@@ -454,33 +455,19 @@ if (SpeechRecognition) {
   recognition.continuous = false;
   recognition.interimResults = false;
 
+  let pendingVoiceMessage = '';
+
   recognition.onstart = () => {
     document.body.classList.add('listening');
     status('LISTENING', 'I am listening...');
   };
 
-  let pendingVoiceMessage = '';
+  recognition.onresult = event => {
+    pendingVoiceMessage =
+      event.results[0][0].transcript.trim();
 
-recognition.onresult = event => {
-  pendingVoiceMessage = event.results[0][0].transcript.trim();
-  recognition.stop();
-};
-
-recognition.onend = () => {
-  document.body.classList.remove('listening');
-
-  if (pendingVoiceMessage) {
-    const message = pendingVoiceMessage;
-    pendingVoiceMessage = '';
-
-    setTimeout(() => sendMessage(message), 300);
-    return;
-  }
-
-  if (voiceMode && !busy) {
-    restartTimer = setTimeout(startListening, 700);
-  }
-};
+    recognition.stop();
+  };
 
   recognition.onerror = event => {
     document.body.classList.remove('listening');
@@ -496,13 +483,26 @@ recognition.onend = () => {
   recognition.onend = () => {
     document.body.classList.remove('listening');
 
+    if (pendingVoiceMessage) {
+      const message = pendingVoiceMessage;
+      pendingVoiceMessage = '';
+
+      setTimeout(() => {
+        sendMessage(message);
+      }, 500);
+
+      return;
+    }
+
     if (voiceMode && !busy) {
       restartTimer = setTimeout(startListening, 700);
     }
   };
+
 } else {
   status('VOICE UNAVAILABLE', 'Use typing or try Safari on iPhone.');
 }
+
 
 // Microphone button
 $('#mic').addEventListener('click', () => {
