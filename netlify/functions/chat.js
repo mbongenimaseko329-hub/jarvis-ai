@@ -27,9 +27,15 @@ exports.handler = async (event) => {
       };
     }
 
-    const response = await fetch(
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=" + apiKey,
-      {
+    const url =
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=" +
+      apiKey;
+
+    let response;
+    let data;
+
+    for (let attempt = 0; attempt < 3; attempt++) {
+      response = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -42,17 +48,40 @@ exports.handler = async (event) => {
             parts: [{ text: message }]
           }]
         })
-      }
-    );
+      });
 
-    const data = await response.json();
+      data = await response.json();
+
+      if (response.ok) break;
+
+      console.error("Gemini attempt:", attempt + 1);
+      console.error("Gemini status:", response.status);
+      console.error(
+        "Gemini error:",
+        JSON.stringify(data.error || data)
+      );
+
+      const temporaryError =
+        response.status === 429 ||
+        response.status === 500 ||
+        response.status === 502 ||
+        response.status === 503 ||
+        response.status === 504;
+
+      if (!temporaryError || attempt === 2) break;
+
+      await new Promise(resolve =>
+        setTimeout(resolve, attempt === 0 ? 2000 : 4000)
+      );
+    }
 
     if (!response.ok) {
-      console.error("Gemini returned status:", response.status);
-      console.error("Gemini error details:", JSON.stringify(data.error || data));
       return {
         statusCode: 502,
-        body: JSON.stringify({ error: "Gemini request failed" })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          error: "Gemini is temporarily unavailable. Please try again shortly."
+        })
       };
     }
 
@@ -60,15 +89,21 @@ exports.handler = async (event) => {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        reply: data.candidates?.[0]?.content?.parts?.[0]?.text || "I couldn't generate a response."
+        reply:
+          data.candidates?.[0]?.content?.parts?.[0]?.text ||
+          "I couldn't generate a response."
       })
     };
 
   } catch (error) {
     console.error("JARVIS function error:", error.message);
+
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: "Something went wrong" })
+      body: JSON.stringify({
+        error: "Something went wrong"
+      })
     };
   }
 };
+
