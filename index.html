@@ -358,8 +358,27 @@ function speak(reply) {
   window.speechSynthesis.cancel();
 
   const utterance = new SpeechSynthesisUtterance(reply);
-  utterance.lang = 'en-ZA';
-  utterance.rate = 1;
+
+const voices = window.speechSynthesis.getVoices();
+
+const britishMaleVoice = voices.find(voice =>
+  voice.lang === 'en-GB' &&
+  /male|daniel|oliver|arthur/i.test(voice.name)
+);
+
+const britishVoice = voices.find(voice =>
+  voice.lang === 'en-GB'
+);
+
+if (britishMaleVoice) {
+  utterance.voice = britishMaleVoice;
+} else if (britishVoice) {
+  utterance.voice = britishVoice;
+}
+
+utterance.lang = 'en-GB';
+utterance.rate = 0.88;
+utterance.pitch = 0.75;
 
   utterance.onend = () => {
     busy = false;
