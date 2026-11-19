@@ -20,7 +20,11 @@ exports.handler = async (event) => {
     const apiKey = process.env.GEMINI_API_KEY;
 
     if (!apiKey) {
-      throw new Error("Gemini API key is not configured");
+      console.error("GEMINI_API_KEY is missing.");
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: "API key is not configured" })
+      };
     }
 
     const response = await fetch(
@@ -44,6 +48,8 @@ exports.handler = async (event) => {
     const data = await response.json();
 
     if (!response.ok) {
+      console.error("Gemini returned status:", response.status);
+      console.error("Gemini error details:", JSON.stringify(data.error || data));
       return {
         statusCode: 502,
         body: JSON.stringify({ error: "Gemini request failed" })
@@ -59,6 +65,7 @@ exports.handler = async (event) => {
     };
 
   } catch (error) {
+    console.error("JARVIS function error:", error.message);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: "Something went wrong" })
