@@ -28,7 +28,7 @@ exports.handler = async (event) => {
     }
 
     const url =
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=" +
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key=" +
       apiKey;
 
     let response;
