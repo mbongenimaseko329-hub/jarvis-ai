@@ -381,14 +381,21 @@ utterance.rate = 0.92;
 utterance.pitch = 0.80;
 
   utterance.onend = () => {
-    busy = false;
-    if (voiceMode) {
-      status('LISTENING', 'JARVIS is ready for your next message.');
-      restartTimer = setTimeout(startListening, 700);
-    } else {
-      status('SYSTEM ONLINE', 'Tap the microphone to speak.');
-    }
-  };
+  busy = false;
+
+  if (voiceMode) {
+    status('LISTENING', 'JARVIS is ready for your next message.');
+
+    restartTimer = setTimeout(() => {
+      if (voiceMode) {
+        startListening();
+      }
+    }, 1800);
+
+  } else {
+    status('SYSTEM ONLINE', 'Tap the microphone to speak.');
+  }
+};
 
   utterance.onerror = () => {
     busy = false;
