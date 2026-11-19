@@ -488,9 +488,10 @@ if (SpeechRecognition) {
       const message = pendingVoiceMessage;
       pendingVoiceMessage = '';
 
-      setTimeout(() => {
-        sendMessage(message);
-      }, 500);
+     setTimeout(() => {
+  voiceMode = false;
+  sendMessage(message);
+}, 500);
 
       return;
     }
