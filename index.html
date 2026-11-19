@@ -431,7 +431,12 @@ async function sendMessage(message) {
     const reply = data.reply || 'I could not generate a reply.';
     add('JARVIS', reply);
     status('SPEAKING', 'JARVIS is speaking...');
-    speak(reply);
+
+window.speechSynthesis.cancel();
+
+setTimeout(() => {
+  speak(reply);
+}, 1000);
 
   } catch (error) {
     console.error(error);
