@@ -523,9 +523,17 @@ $('#mic').addEventListener('click', () => {
     status('SYSTEM ONLINE', 'Voice mode stopped.');
   } else {
     voiceMode = true;
-    $('#mic').textContent = '■';
-    status('LISTENING', 'I am listening...');
-    startListening();
+$('#mic').textContent = '■';
+status('LISTENING', 'I am listening...');
+
+// Unlock speech when the microphone is first tapped
+window.speechSynthesis.cancel();
+window.speechSynthesis.resume();
+
+const unlockSpeech = new SpeechSynthesisUtterance(' ');
+window.speechSynthesis.speak(unlockSpeech);
+
+startListening();
   }
 });
 
