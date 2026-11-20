@@ -406,6 +406,8 @@ utterance.pitch = 0.80;
   window.speechSynthesis.speak(utterance);
 }
 
+let conversationHistory = [];
+
 async function sendMessage(message) {
   const text = message.trim();
   if (!text || busy) return;
@@ -419,7 +421,10 @@ async function sendMessage(message) {
     const response = await fetch('/.netlify/functions/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: text })
+      body: JSON.stringify({
+        message: text,
+        history: conversationHistory
+      })
     });
 
     const data = await response.json();
@@ -429,9 +434,15 @@ async function sendMessage(message) {
     }
 
     const reply = data.reply || 'I could not generate a reply.';
+
+    conversationHistory.push(
+      { role: 'user', parts: [{ text: text }] },
+      { role: 'model', parts: [{ text: reply }] }
+    );
+
     add('JARVIS', reply);
     status('SPEAKING', 'JARVIS is speaking...');
-speak(reply);
+    speak(reply);
 
   } catch (error) {
     console.error(error);
@@ -441,6 +452,7 @@ speak(reply);
     if (voiceMode) setTimeout(startListening, 1500);
   }
 }
+
 
 // Text messages
 $('#chat').addEventListener('submit', event => {
