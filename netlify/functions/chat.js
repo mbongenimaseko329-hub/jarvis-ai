@@ -8,7 +8,7 @@ exports.handler = async (event) => {
   }
 
   try {
-    const { message } = JSON.parse(event.body || "{}");
+     const { message, history = [] } = JSON.parse(event.body || "{}");
 
     if (!message || typeof message !== "string") {
       return {
@@ -44,9 +44,13 @@ exports.handler = async (event) => {
               text: "You are JARVIS, an advanced personal AI assistant inspired by a professional executive assistant. You are calm, intelligent, confident, respectful, and highly capable. Speak naturally, like a real conversational assistant. Give clear and useful answers, remember the conversation context, and avoid unnecessary explanations. Be proactive when appropriate, but never pretend to have completed an action you cannot perform. Address the user respectfully. "
             }]
           },
-          contents: [{
-            parts: [{ text: message }]
-          }]
+          contents: [
+  ...(Array.isArray(history) ? history : []),
+  {
+    role: "user",
+    parts: [{ text: message }]
+  }
+]
         })
       });
 
