@@ -426,58 +426,275 @@ body.listening .mic {
 .globe-shine {
   z-index: 2;
 }
+  
+/* ===== JARVIS COMMAND CENTRE DESIGN ===== */
+
+body {
+  background:
+    radial-gradient(ellipse at 50% 35%, #073e69 0%, #061a32 42%, #020711 85%);
+  overflow-x: hidden;
+}
+
+.app {
+  max-width: 620px;
+}
+
+.top-bar {
+  border-bottom: 1px solid #42c8ff55;
+  padding-bottom: 16px;
+}
+
+.brand {
+  font-size: 17px;
+  text-shadow: 0 0 15px #42c8ff;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.info-card {
+  border: 1px solid #42c8ff66;
+  border-radius: 14px;
+  padding: 13px;
+  background: linear-gradient(145deg, #0b3150dd, #030d1cee);
+  box-shadow: inset 0 0 18px #42c8ff12, 0 0 15px #168bdb22;
+}
+
+.system-online {
+  color: #69ffbd;
+  font-size: 15px;
+  margin: 9px 0 5px;
+  text-shadow: 0 0 12px #69ffbd;
+}
+
+.weather-value {
+  color: #8deaff;
+  font-size: 17px;
+  margin: 9px 0 5px;
+}
+
+.card-small {
+  font-size: 10px;
+  color: #9bbbd2;
+}
+
+main {
+  padding-top: 16px;
+}
+
+.orb-wrap {
+  width: min(68vw, 270px);
+  margin-bottom: 18px;
+  filter: drop-shadow(0 0 25px #168bdb88);
+}
+
+.orb {
+  box-shadow:
+    0 0 30px #42c8ff,
+    0 0 80px #168bdb,
+    0 0 120px #168bdb66,
+    inset -18px -15px 35px #010713,
+    inset 12px 10px 25px #a5f5ff88;
+}
+
+.greeting {
+  text-shadow: 0 0 18px #42c8ff88;
+}
+
+.service-banner {
+  text-align: center;
+  margin-top: 12px;
+}
+
+.dashboard-actions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 7px;
+  width: 100%;
+  margin: 20px 0;
+}
+
+.dashboard-actions button {
+  min-width: 0;
+  border: 1px solid #42c8ff66;
+  border-radius: 13px;
+  background: linear-gradient(145deg, #104269, #06182b);
+  color: #8deaff;
+  padding: 12px 4px;
+  font-size: 19px;
+  box-shadow: 0 0 15px #168bdb22;
+}
+
+.dashboard-actions button span {
+  display: block;
+  font-size: 9px;
+  margin-top: 6px;
+}
+
+.lower-dashboard {
+  display: grid;
+  grid-template-columns: 1.3fr .7fr;
+  gap: 10px;
+  align-items: start;
+}
+
+.panel {
+  border: 1px solid #42c8ff66;
+  background: linear-gradient(145deg, #092744ee, #030b18ee);
+  border-radius: 16px;
+  box-shadow: 0 0 20px #168bdb22;
+  min-width: 0;
+}
+
+.panel-title {
+  text-shadow: 0 0 12px #42c8ff;
+}
+
+.quick-tool-item {
+  color: #bdeeff;
+  font-size: 11px;
+  padding: 9px 2px;
+  border-bottom: 1px solid #42c8ff22;
+}
+
+.voice-hint {
+  text-align: center;
+  color: #8deaff;
+  font-size: 11px;
+  margin-top: 12px;
+}
+
+input {
+  border-color: #42c8ff88;
+}
+
+.send {
+  background: #075080;
+}
+
+nav {
+  background: #020916ee;
+  border-top: 1px solid #42c8ff66;
+  box-shadow: 0 -8px 30px #168bdb33;
+}
+
+nav button {
+  border-radius: 12px;
+  border-color: #42c8ff55;
+}
+
+@media (max-width: 380px) {
+  .lower-dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-actions button span {
+    font-size: 8px;
+  }
+}
+
 </style>
-</head>
 
 <body>
 <div class="app">
 
-<header>
-  <div class="brand">J.A.R.V.I.S.</div>
-  <div class="clock">
-    <div id="time">--:--</div>
-    <div id="date">Loading date</div>
-  </div>
-</header>
+  <header class="top-bar">
+    <div class="brand">J.A.R.V.I.S.</div>
+    <div class="clock">
+      <div id="time">--:--</div>
+      <div id="date">Loading date</div>
+    </div>
+  </header>
 
-<main>
-  <div class="status" id="status">SYSTEM ONLINE</div>
-  <div class="orb-wrap">
-  <div class="orb">
-    <div class="globe-grid"></div>
-    <div class="globe-shine"></div>
-  </div>
-</div>
-  <div class="greeting">At your service.</div>
-  <div class="sub">Your personal AI assistant</div>
+  <div class="dashboard-grid">
 
-  <div class="controls">
-    <button class="mic" id="mic" aria-label="Start voice mode">🎙</button>
+    <section class="info-card system-card">
+      <div class="panel-title">● SYSTEM STATUS</div>
+      <div class="system-online">● ONLINE</div>
+      <div class="card-small">All systems operational</div>
+    </section>
+
+    <section class="info-card weather-card">
+      <div class="panel-title">WEATHER</div>
+      <div class="weather-value">Weather</div>
+      <div class="card-small">Not connected yet</div>
+    </section>
+
   </div>
 
-  <div class="secondary" id="hint">
+  <main>
+    <div class="status" id="status">SYSTEM ONLINE</div>
+
+    <div class="orb-wrap">
+      <div class="orb">
+        <div class="globe-grid"></div>
+        <div class="globe-shine"></div>
+      </div>
+    </div>
+
+    <div class="greeting">J.A.R.V.I.S.</div>
+    <div class="sub">// AI CORE //</div>
+
+    <div class="service-banner">
+      <div class="greeting">At your service.</div>
+      <div class="sub">Your personal AI assistant</div>
+    </div>
+
+    <div class="dashboard-actions">
+      <button type="button" onclick="document.getElementById('mic').click()">
+        🎙<span>Voice Mode</span>
+      </button>
+      <button type="button" data-tab="ASSISTANT">
+        ◉<span>Assistant</span>
+      </button>
+      <button type="button" data-tab="TASKS">
+        ✓<span>Tasks</span>
+      </button>
+      <button type="button" data-tab="SETTINGS">
+        ⚙<span>Settings</span>
+      </button>
+    </div>
+  </main>
+
+  <div class="lower-dashboard">
+
+    <section class="panel conversation-panel">
+      <div class="panel-title">◉ CONVERSATION</div>
+
+      <div id="conversation">
+        <div class="msg">
+          <div class="who">JARVIS</div>
+          Good day. How may I assist you?
+        </div>
+      </div>
+
+      <form id="chat">
+        <input id="entry" placeholder="Message JARVIS..." autocomplete="off">
+        <button class="send" type="submit">Send</button>
+      </form>
+    </section>
+
+    <section class="panel quick-tools">
+      <div class="panel-title">⚡ QUICK TOOLS</div>
+      <div class="quick-tool-item">▦ &nbsp; Reminders</div>
+      <div class="quick-tool-item">◎ &nbsp; News</div>
+      <div class="quick-tool-item">▶ &nbsp; YouTube</div>
+      <div class="quick-tool-item">♫ &nbsp; Music</div>
+    </section>
+
+  </div>
+
+  <div class="voice-hint" id="hint">
     Tap the microphone to start voice mode.
   </div>
-</main>
 
-<section class="panel">
-  <div class="panel-title">CONVERSATION</div>
-
-  <div id="conversation">
-    <div class="msg">
-      <div class="who">JARVIS</div>
-      Good day. How may I assist you?
-    </div>
-  </div>
-
-  <form id="chat">
-    <input id="entry" placeholder="Message JARVIS..." autocomplete="off">
-    <button class="send" type="submit">Send</button>
-  </form>
-
-  <div class="note">Connected to your JARVIS AI service.</div>
-</section>
 </div>
+</body>
+
 
 <nav>
   <button data-tab="HOME">⌂ Home</button>
