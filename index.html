@@ -92,10 +92,20 @@ main {
   width: 66%;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: radial-gradient(circle at 50% 45%, #7deaff 0, #1689c9 18%, #075080 43%, #061b34 72%);
-  box-shadow: 0 0 25px #3acaffaa, 0 0 70px #168bdb66, inset 0 0 30px #a5f5ff55;
   position: relative;
+  background:
+    radial-gradient(circle at 50% 45%,
+      #b8faff 0%,
+      #35cfff 12%,
+      #087fc2 35%,
+      #031a36 70%,
+      #010713 100%);
+  box-shadow:
+    0 0 35px #42c8ff,
+    0 0 80px #168bdb99,
+    inset 0 0 40px #a5f5ff88;
   animation: pulse 3s ease-in-out infinite;
+  overflow: hidden;
 }
 .orb:before, .orb:after {
   content: "";
