@@ -372,31 +372,31 @@ body.listening .mic {
 
   nav button {
     padding: 9px 10px;
-    font-size: 11px;
-  }
-}
-  .globe-grid {
+    font-size: 
+.globe-grid {
   position: absolute;
   inset: 0;
   border-radius: 50%;
   z-index: 1;
+  pointer-events: none;
+
   background:
     repeating-linear-gradient(
       0deg,
-      transparent 0 13px,
-      #8deaff55 14px,
-      transparent 15px
+      transparent 0 12px,
+      #8deaff55 13px,
+      transparent 14px
     ),
     repeating-linear-gradient(
       90deg,
-      transparent 0 13px,
-      #8deaff55 14px,
-      transparent 15px
+      transparent 0 12px,
+      #8deaff55 13px,
+      transparent 14px
     );
-  opacity: .65;
-  animation: globeRotate 12s linear infinite;
-}
 
+  opacity: .8;
+  animation: globeRotate 8s linear infinite;
+}
 .globe-shine {
   position: absolute;
   inset: 0;
@@ -415,6 +415,13 @@ body.listening .mic {
 @keyframes globeRotate {
   from { transform: rotateY(0deg); }
   to { transform: rotateY(360deg); }
+}
+    .orb {
+  isolation: isolate;
+}
+
+.globe-shine {
+  z-index: 2;
 }
 </style>
 </head>
