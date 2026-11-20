@@ -596,7 +596,12 @@ nav button {
     font-size: 8px;
   }
 }
-
+.dashboard-actions .mic {
+  width: auto;
+  height: auto;
+  font-size: 19px;
+  padding: 12px 4px;
+}
 </style>
 
 <body>
@@ -645,9 +650,9 @@ nav button {
     </div>
 
     <div class="dashboard-actions">
-      <button type="button" onclick="document.getElementById('mic').click()">
-        🎙<span>Voice Mode</span>
-      </button>
+      <button type="button" class="mic" id="mic">
+  🎙<span>Voice Mode</span>
+</button>
       <button type="button" data-tab="ASSISTANT">
         ◉<span>Assistant</span>
       </button>
