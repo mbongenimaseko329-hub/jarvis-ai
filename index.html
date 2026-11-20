@@ -107,20 +107,26 @@ main {
   animation: pulse 3s ease-in-out infinite;
   overflow: hidden;
 }
-.orb:before, .orb:after {
+.orb:before,
+.orb:after {
   content: "";
   position: absolute;
-  inset: -20px;
+  inset: 8%;
   border-radius: 50%;
-  border: 1px dashed #65dfff88;
-  animation: spin 22s linear infinite;
+  border: 2px solid #42c8ff;
+  box-shadow: 0 0 15px #42c8ff;
+  animation: spin 8s linear infinite;
 }
+
+.orb:before {
+  transform: rotateX(65deg);
+}
+
 .orb:after {
-  inset: -36px;
-  border-style: solid;
-  border-color: #4fcfff33 transparent #4fcfff66 transparent;
-  animation-direction: reverse;
-  animation-duration: 12s;
+  inset: 18%;
+  border: 2px dashed #8deaff;
+  animation: spin 5s linear infinite reverse;
+  transform: rotateY(65deg);
 }
 body.listening .orb {
   animation: pulse .65s ease-in-out infinite;
